@@ -6,27 +6,21 @@
 #
 
 LOCAL_PATH := device/oplus/ossi
-# A/B
+
+# A/B 虚拟分区方案配置
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
     POSTINSTALL_PATH_system=system/bin/otapreopt_script \
     FILESYSTEM_TYPE_system=ext4 \
     POSTINSTALL_OPTIONAL_system=true
 
-# Boot control HAL
+# 现代 Boot control HAL 共享库（适配 Android 12/13）
 PRODUCT_PACKAGES += \
-    android.hardware.boot@1.0-impl \
-    android.hardware.boot@1.0-service
+    android.hardware.boot@1.2-impl \
+    android.hardware.boot@1.2-service \
+    android.hardware.boot@1.2-service.rc
 
-PRODUCT_PACKAGES += \
-    bootctrl.mt6893
-
-PRODUCT_STATIC_BOOT_CONTROL_HAL := \
-    bootctrl.mt6893 \
-    libgptutils \
-    libz \
-    libcutils
-
+# 基础 A/B 升级与动态分区挂载必要组件
 PRODUCT_PACKAGES += \
     otapreopt_script \
     cppreopts.sh \
